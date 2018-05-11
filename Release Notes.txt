@@ -1,0 +1,3 @@
+Release Notes 05 11 2018 (First Build)
+
+WASD to move, left-click to select and see details of a file cube, E to hover-lock it in front of you (basically useless atm, but hey, build a pyramid of sys32 files) Q to "pocket" the selected cube or "unpocket" a stored cube. 5 pockets total. leftctrl to bring up the HUD. HUD has a folder path field, enter a folder path and press 'jump' to load that folder. If you pocket something and unpocket it in another folder-room it'll move the file there. atm the pockets don't show any change and clicking on them in the HUD doesn't pocket/unpocket anything but Q works so it's good enough as a first proof of concept.
