@@ -23,6 +23,7 @@ public class InventoryHandler : MonoBehaviour {
             if (Object.Equals(pockets[i].fileAbs, null))
             {
                 pockets[i].addToPocket(obj, this.gameObject);
+                this.GetComponent<GUIHandler>().setPocketText(i, pockets[i].fileAbs.fileName);
                 pocketed = true;
             }
             i++;
@@ -42,7 +43,17 @@ public class InventoryHandler : MonoBehaviour {
             if (!Object.Equals(pockets[i].fileAbs, null))
             {
                 GameObject newCube = pockets[i].removeFromPocket(this.gameObject);
-                GetComponent<FilesystemHandler>().moveToFolder(newCube.GetComponent<FileAbstraction>(), GetComponent<EnvironmentHandler>().currentFolder);
+                bool b = GetComponent<FilesystemHandler>().moveToFolder(newCube.GetComponent<FileAbstraction>(), GetComponent<EnvironmentHandler>().currentFolder);
+                if (!this.gameObject.GetComponent<EnvironmentHandler>().isCubeLoaded(newCube.GetComponent<FileAbstraction>()))
+                {
+                    if (!this.gameObject.GetComponent<ObjectHandler>().flipHold(newCube)) { this.gameObject.GetComponent<ObjectHandler>().flipHold(newCube); }
+                    this.gameObject.GetComponent<EnvironmentHandler>().Cubes.Add(newCube);
+                }
+                else
+                {
+                    Destroy(newCube);
+                }
+                this.GetComponent<GUIHandler>().setPocketText(i, "-Empty-");
                 pocketed = true;
             }
             i++;

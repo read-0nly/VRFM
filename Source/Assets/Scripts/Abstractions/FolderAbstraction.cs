@@ -10,35 +10,43 @@ public class FolderAbstraction : MonoBehaviour {
 
     public FolderAbstraction(string path, string name, GameObject door)
     {
-        folderPath = path;
+        folderPath = path.Replace("\\.\\", "\\").Replace("\\..\\", "\\").Replace("\\\\","\\");
         folderName = name;
         selfDoor = door;
     }
     public FolderAbstraction(string path, string name)
     {
 
-        folderPath = path;
+        folderPath = path.Replace("\\.\\", "\\").Replace("\\..\\", "\\").Replace("\\\\", "\\");
         folderName = name;
     }
 
-    public void enumerate(List<FileAbstraction> files, List<FolderAbstraction> folders)
+    public bool enumerate(List<FileAbstraction> files, List<FolderAbstraction> folders)
     {
-        string[] sFolders = System.IO.Directory.GetDirectories(folderPath);
-        string[] sFiles = System.IO.Directory.GetFiles(folderPath);
+        try
+        {
+            string[] sFolders = System.IO.Directory.GetDirectories(folderPath);
+            string[] sFiles = System.IO.Directory.GetFiles(folderPath);
 
-        foreach (string sFo in sFolders)
-        {
-            string[] pathParts = sFo.Split('\\');
-            string name = pathParts[pathParts.Length-1];
-            FolderAbstraction newFoA = new FolderAbstraction(sFo, name);
-            folders.Add(newFoA);
+            foreach (string sFo in sFolders)
+            {
+                string[] pathParts = sFo.Split('\\');
+                string name = pathParts[pathParts.Length - 1];
+                FolderAbstraction newFoA = new FolderAbstraction(sFo, name);
+                folders.Add(newFoA);
+            }
+            foreach (string sFi in sFiles)
+            {
+                string[] pathParts = sFi.Split('\\');
+                string name = pathParts[pathParts.Length - 1];
+                FileAbstraction newFiA = new FileAbstraction(sFi, name, Color.red, 3);
+                files.Add(newFiA);
+            }
+            return true;
         }
-        foreach (string sFi in sFiles)
+        catch (System.Exception e)
         {
-            string[] pathParts = sFi.Split('\\');
-            string name = pathParts[pathParts.Length - 1];
-            FileAbstraction newFiA = new FileAbstraction(sFi, name, Color.red, 3);
-            files.Add(newFiA);
+            return false;
         }
     }
 

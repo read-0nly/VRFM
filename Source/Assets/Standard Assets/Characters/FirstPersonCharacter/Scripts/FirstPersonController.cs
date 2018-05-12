@@ -42,10 +42,10 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private bool m_Jumping;
         private AudioSource m_AudioSource;
 
-        public void flipMouseLook()
+        public void flipMouseLook(bool b)
         {
-            m_MouseLook.SetCursorLock(!m_MouseLook.lockCursor);
-            this.enabled = !this.enabled;
+            m_MouseLook.SetCursorLock(!b);
+            this.enabled =  !b;
 
         }
 

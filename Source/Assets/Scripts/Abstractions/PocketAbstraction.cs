@@ -39,9 +39,7 @@ public class PocketAbstraction : MonoBehaviour {
     public GameObject removeFromPocket(GameObject player)
     {
         GameObject newCube = player.GetComponent<EnvironmentHandler>().createCube(fileAbs);
-        player.GetComponent<EnvironmentHandler>().Cubes.Add(newCube);
         newCube.GetComponent<FileAbstraction>().clone(fileAbs);
-        if (!player.GetComponent<ObjectHandler>().flipHold(newCube)) { player.GetComponent<ObjectHandler>().flipHold(newCube); }
         fileAbs = null;
         fileCube = null;
         return newCube;

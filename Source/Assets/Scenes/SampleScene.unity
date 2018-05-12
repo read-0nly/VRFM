@@ -800,6 +800,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fileCube: {fileID: 0}
   fileAbs: {fileID: 0}
+--- !u!114 &573536820 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114507801524520462, guid: 3da360c4f7f776a46a3b979ae77c6417,
+    type: 2}
+  m_PrefabInternal: {fileID: 1365459923}
+  m_Script: {fileID: 575553740, guid: f70555f144d8491a825f0804e09c671c, type: 3}
 --- !u!1001 &781963677
 Prefab:
   m_ObjectHideFlags: 0
@@ -1366,6 +1372,14 @@ Prefab:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 1839087407120144, guid: 3da360c4f7f776a46a3b979ae77c6417, type: 2}
+      propertyPath: m_Name
+      value: folderText
+      objectReference: {fileID: 0}
+    - target: {fileID: 1839087407120144, guid: 3da360c4f7f776a46a3b979ae77c6417, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3da360c4f7f776a46a3b979ae77c6417, type: 2}
   m_IsPrefabParent: 0
@@ -1808,12 +1822,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fileCube: {fileID: 0}
   fileAbs: {fileID: 0}
---- !u!114 &1876980260 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114349302322180018, guid: 3da360c4f7f776a46a3b979ae77c6417,
-    type: 2}
-  m_PrefabInternal: {fileID: 1365459923}
-  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
 --- !u!1001 &1884284491
 Prefab:
   m_ObjectHideFlags: 0
@@ -1948,12 +1956,13 @@ MonoBehaviour:
   errorText: {fileID: 420166572}
   cautionText: {fileID: 215027483}
   fileInfoText: {fileID: 876069718}
-  folderText: {fileID: 1876980260}
+  folderText: {fileID: 573536820}
   pocket1Text: {fileID: 1491966140}
   pocket2Text: {fileID: 2101006017}
   pocket3Text: {fileID: 2030738990}
   pocket4Text: {fileID: 1602571861}
   pocket5Text: {fileID: 1311954622}
+  currentFolderPath: 
 --- !u!1 &1975223263
 GameObject:
   m_ObjectHideFlags: 0

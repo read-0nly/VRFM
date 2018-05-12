@@ -9,16 +9,18 @@ public class GUIHandler : MonoBehaviour
     public GameObject fileInfoPanel;
     public GameObject folderPanel;
     public GameObject pocketPanel;
+    bool guiState = false;
 
     public UnityEngine.UI.Text errorText;
     public UnityEngine.UI.Text cautionText;
     public UnityEngine.UI.Text fileInfoText;
-    public UnityEngine.UI.Text folderText;
+    public UnityEngine.UI.InputField folderText;
     public UnityEngine.UI.Text pocket1Text;
     public UnityEngine.UI.Text pocket2Text;
     public UnityEngine.UI.Text pocket3Text;
     public UnityEngine.UI.Text pocket4Text;
     public UnityEngine.UI.Text pocket5Text;
+    public string currentFolderPath = "";
 
     private List<UnityEngine.UI.Text> pockets = new List<UnityEngine.UI.Text>();
 
@@ -30,11 +32,11 @@ public class GUIHandler : MonoBehaviour
 	void Start () {
 		/*
          */ //CommentSwitch, add a space between * and / to switch 
-        pocket1Text.text = "Pocket 1";
-        pocket2Text.text = "Pocket 2";
-        pocket3Text.text = "Pocket 3";
-        pocket4Text.text = "Pocket 4";
-        pocket5Text.text = "Pocket 5";
+        pocket1Text.text = "-Empty-";
+        pocket2Text.text = "-Empty-";
+        pocket3Text.text = "-Empty-";
+        pocket4Text.text = "-Empty-";
+        pocket5Text.text = "-Empty-";
         pocketPanel.SetActive(false);
         folderPanel.SetActive(false);
         /**/
@@ -45,7 +47,8 @@ public class GUIHandler : MonoBehaviour
     {
         if (Input.GetButtonDown("Unlock"))
         {
-            flipInterface();
+            flipInterface(!guiState);
+            guiState = !guiState;
         }
 	}
 
@@ -59,28 +62,57 @@ public class GUIHandler : MonoBehaviour
         fileInfoPanel.SetActive(true);
     }
 
-    public void flipInterface()
+    public void setFolderText(string s)
     {
-        this.GetComponent<UnityStandardAssets.Characters.FirstPerson.FirstPersonController>().flipMouseLook();
-        pocketPanel.SetActive(!folderPanel.activeSelf);
-        folderPanel.SetActive(!folderPanel.activeSelf);
+        Debug.LogWarning("Triggered foldertext:"+s);
+        currentFolderPath = s;
+    }
+
+    public void flipInterface(bool b)
+    {
+        folderPanel.SetActive(b);
+        pocketPanel.SetActive(b);
+        
+        this.GetComponent<UnityStandardAssets.Characters.FirstPerson.FirstPersonController>().flipMouseLook(b);
+
+        Debug.LogWarning("currentPath:" + currentFolderPath);
+        folderText.text = currentFolderPath;
     }
     public void hideFileText()
     {
         fileInfoPanel.SetActive(false);
     }
-
-    public void flipInventory()
-    {
-
-    }
-
+    
     public void jumpClick()
     {
         string path = folderText.text;
         string[] split = path.Split('\\');
         FolderAbstraction fa = new FolderAbstraction(path, split[split.Length - 1]);
         this.GetComponent<EnvironmentHandler>().changeFolder(fa);
+    }
+
+    public void setPocketText(int index, string s)
+    {
+        switch (index)
+        {
+            case 0:
+                pocket1Text.text = s;
+                break;
+            case 1:
+                pocket2Text.text = s;
+                break;
+            case 2:
+                pocket3Text.text = s;
+                break;
+            case 3:
+                pocket4Text.text = s;
+                break;
+            case 4:
+                pocket5Text.text = s;
+                break;
+            default:
+                break;
+        }
     }
 
 

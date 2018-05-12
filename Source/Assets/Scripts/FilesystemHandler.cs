@@ -14,11 +14,16 @@ public class FilesystemHandler : MonoBehaviour {
 		
 	}
 
-    public void moveToFolder(FileAbstraction fiA, FolderAbstraction foA)
+    public bool moveToFolder(FileAbstraction fiA, FolderAbstraction foA)
     {
         if (!System.IO.File.Exists(foA.folderPath+"\\"+fiA.fileName))
         {
             System.IO.File.Move(fiA.filePath, foA.folderPath + "\\" + fiA.fileName);
+            return true;
+        }
+        else
+        {
+            return false;
         }
 
     }

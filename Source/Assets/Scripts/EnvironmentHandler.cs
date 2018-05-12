@@ -43,6 +43,18 @@ public class EnvironmentHandler : MonoBehaviour {
         createEnv();
     }
 
+    public bool isCubeLoaded(FileAbstraction fa)
+    {
+        bool found = false;
+        foreach(GameObject c in Cubes){
+            FileAbstraction cFa = c.GetComponent<FileAbstraction>();
+            Debug.LogWarning(cFa.filePath + " checked against " + fa.filePath);
+            if (cFa.fileName == fa.fileName) { found = true; }
+            Debug.LogWarning(found);
+        }
+ 
+        return found;
+    }
     public void destroyEnv()
     {
         GameObject.Destroy(Room);
@@ -64,10 +76,9 @@ public class EnvironmentHandler : MonoBehaviour {
         Room = null;
     }
 
-    public void createEnv()
+    public void prepFolderDetails()
     {
-       // currentFolder = new FolderAbstraction("C:\\", "C:");
-        if ( Object.Equals(currentFolder,null))
+        if (Object.Equals(currentFolder, null) || currentFolder.folderPath.ToUpper() == "ROOT")
         {
             Debug.LogError("istrue");
             string[] Drives = System.IO.Directory.GetLogicalDrives();
@@ -78,20 +89,35 @@ public class EnvironmentHandler : MonoBehaviour {
                 folderList.Add(fa);
             }
             createDoors(folderList, 2f);
+            GetComponent<GUIHandler>().setFolderText("Root");
         }
         else
         {
             Debug.LogError("iselse");
-            FolderAbstraction fa = new FolderAbstraction(currentFolder.folderPath + "\\..", "..");
+            FolderAbstraction fa = new FolderAbstraction("Root", "Root");
             folderList.Add(fa);
-            fa = new FolderAbstraction(currentFolder.folderPath + "\\.", ".");
+            fa = new FolderAbstraction(currentFolder.folderPath + "\\..\\", "..");
             folderList.Add(fa);
-                
-            currentFolder.enumerate(fileList,folderList);
-            
-            createDoors(folderList, 2f);
+            fa = new FolderAbstraction(currentFolder.folderPath + "\\.\\", ".");
+            folderList.Add(fa);
+
+            if (!currentFolder.enumerate(fileList, folderList))
+            {
+                currentFolder = null;
+                prepFolderDetails();
+            }
+            else
+            {
+                createDoors(folderList, 2f);
+                GetComponent<GUIHandler>().setFolderText(currentFolder.folderPath);
+            }
         }
-            
+    }
+    public void createEnv()
+    {
+       // currentFolder = new FolderAbstraction("C:\\", "C:");
+
+        prepFolderDetails();    
         
 
         //demo doors
