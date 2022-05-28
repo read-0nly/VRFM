@@ -47,7 +47,7 @@ public class EnvironmentHandler : MonoBehaviour {
     {
         bool found = false;
         foreach(GameObject c in Cubes){
-            FileAbstraction cFa = c.GetComponent<FileAbstraction>();
+            FileAbstraction cFa = c.GetComponent<FileHandle>().file;
             Debug.LogWarning(cFa.filePath + " checked against " + fa.filePath);
             if (cFa.fileName == fa.fileName) { found = true; }
             Debug.LogWarning(found);
@@ -173,10 +173,11 @@ public class EnvironmentHandler : MonoBehaviour {
         if (folders.Count > 0)
         {
             GameObject door = Instantiate(d_Door);
+            door.AddComponent<FolderHandle>();
+            FolderHandle fhand = door.GetComponent<FolderHandle>();
             int number = folders.Count;
             door.transform.position = door.transform.position + new Vector3(0, 0, number / 2f + (number / 2f * buffer) - (buffer / 2f) - 0.5f);
-            folders[0].selfDoor = door;
-            door.GetComponent<FolderAbstraction>().clone(folders[0]);
+            fhand.folder = new FolderAbstraction(folders[0]);
             door.transform.Find("Text").gameObject.GetComponent<TextMesh>().text = folders[0].folderName;
 
             Doors.Add(door);
@@ -184,10 +185,10 @@ public class EnvironmentHandler : MonoBehaviour {
             while (i < number)
             {
                 GameObject newDoor = Instantiate(d_Door);
+                door.AddComponent<FolderHandle>();
                 newDoor.transform.position = door.transform.position - new Vector3(0, 0, 1 + buffer);
 
-                folders[i].selfDoor = door;
-                newDoor.GetComponent<FolderAbstraction>().clone(folders[i]);
+                newDoor.GetComponent<FolderHandle>().folder = new FolderAbstraction(folders[i]);
                 newDoor.transform.Find("Text").GetComponent<TextMesh>().text = folders[i].folderName;
 
                 Doors.Add(newDoor);
@@ -239,8 +240,7 @@ public class EnvironmentHandler : MonoBehaviour {
                 break;
         }
 
-        fa.selfCube = cube;
-        cube.GetComponent<FileAbstraction>().clone(fa);
+        cube.GetComponent<FileHandle>().file = new FileAbstraction(fa);
 
         return cube;
 
@@ -250,8 +250,7 @@ public class EnvironmentHandler : MonoBehaviour {
     {
         GameObject door = Instantiate(d_Door);
         door.transform.Find("Text").GetComponent<TextMesh>().text = fa.folderName;
-        fa.selfDoor = door;
-        door.GetComponent<FolderAbstraction>().clone(fa);
+        door.GetComponent<FolderHandle>().folder = new FolderAbstraction(fa);
         return door;
     }
 
@@ -327,13 +326,13 @@ public class EnvironmentHandler : MonoBehaviour {
             }
             if (column == 0)
             {
-                textL.GetComponent<TextMesh>().text = c.GetComponent<FileAbstraction>().fileName.Substring(0, 3).ToUpper();
-                textR.GetComponent<TextMesh>().text = c.GetComponent<FileAbstraction>().fileName.Substring(0, 3).ToUpper();
+                textL.GetComponent<TextMesh>().text = c.GetComponent<FileHandle>().file.fileName.Substring(0, 3).ToUpper();
+                textR.GetComponent<TextMesh>().text = c.GetComponent<FileHandle>().file.fileName.Substring(0, 3).ToUpper();
             }
             else if (column == shelfWidth - 1)
             {
-                textL.GetComponent<TextMesh>().text += "\r\n" + c.GetComponent<FileAbstraction>().fileName.Substring(0, 3).ToUpper();
-                textR.GetComponent<TextMesh>().text += "\r\n" + c.GetComponent<FileAbstraction>().fileName.Substring(0, 3).ToUpper();
+                textL.GetComponent<TextMesh>().text += "\r\n" + c.GetComponent<FileHandle>().file.fileName.Substring(0, 3).ToUpper();
+                textR.GetComponent<TextMesh>().text += "\r\n" + c.GetComponent<FileHandle>().file.fileName.Substring(0, 3).ToUpper();
 
             }
             int colFromMid = (int)(column - (shelfWidth/2));

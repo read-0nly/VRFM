@@ -22,7 +22,7 @@ public class CollisionHandler : MonoBehaviour {
         if (other.gameObject.name == "Face" && other.gameObject.transform.parent.name == "Door(Clone)")
         {
             this.gameObject.transform.position = new Vector3(0, 1, 0);
-            FolderAbstraction fa = other.gameObject.transform.parent.gameObject.GetComponent<FolderAbstraction>();
+            FolderAbstraction fa = other.gameObject.transform.parent.gameObject.GetComponent<FolderHandle>().folder;
             Debug.LogError(fa.folderName);
 
             this.gameObject.GetComponent<EnvironmentHandler>().changeFolder(fa);

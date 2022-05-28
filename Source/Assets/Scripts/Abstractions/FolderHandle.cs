@@ -2,18 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FolderAbstraction : MonoBehaviour {
+public class FolderHandle:MonoBehaviour{
+    public FolderAbstraction folder;
+
+}
+public class FolderAbstraction {
 
     public string folderPath;
     public string folderName;
-    public GameObject selfDoor;
-
-    public FolderAbstraction(string path, string name, GameObject door)
-    {
-        folderPath = path.Replace("\\.\\", "\\").Replace("\\..\\", "\\").Replace("\\\\","\\");
-        folderName = name;
-        selfDoor = door;
-    }
     public FolderAbstraction(string path, string name)
     {
 
@@ -50,11 +46,10 @@ public class FolderAbstraction : MonoBehaviour {
         }
     }
 
-    public void clone(FolderAbstraction fa)
+    public FolderAbstraction(FolderAbstraction fa)
     {
         folderPath = fa.folderPath;
         folderName = fa.folderName;
-        selfDoor = fa.selfDoor;
     }
 
 }

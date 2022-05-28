@@ -4,13 +4,11 @@ using UnityEngine;
 
 public class PocketAbstraction : MonoBehaviour {
 
-    public GameObject fileCube;
     public FileAbstraction fileAbs;
 
     public PocketAbstraction(FileAbstraction fa)
     {
         fileAbs = fa;
-        fileCube = fa.selfCube;
     }
     public PocketAbstraction()
     {
@@ -28,10 +26,9 @@ public class PocketAbstraction : MonoBehaviour {
     public PocketAbstraction addToPocket(GameObject obj, GameObject player)
     {
         Debug.LogError(obj.name);
-        Debug.LogError(obj.GetComponent<FileAbstraction>().fileName);
-        fileAbs = new FileAbstraction(obj.GetComponent<FileAbstraction>());
+        Debug.LogError(obj.GetComponent<FileHandle>().file.fileName);
+        fileAbs = new FileAbstraction(obj.GetComponent<FileHandle>().file);
         Debug.LogError(fileAbs.fileName);
-        fileCube = obj;
         player.GetComponent<EnvironmentHandler>().Cubes.Remove(obj);
         Destroy(obj);
         return this;
@@ -39,9 +36,8 @@ public class PocketAbstraction : MonoBehaviour {
     public GameObject removeFromPocket(GameObject player)
     {
         GameObject newCube = player.GetComponent<EnvironmentHandler>().createCube(fileAbs);
-        newCube.GetComponent<FileAbstraction>().clone(fileAbs);
+        newCube.GetComponent<FileHandle>().file = new FileAbstraction(fileAbs);
         fileAbs = null;
-        fileCube = null;
         return newCube;
 
     }
